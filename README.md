@@ -7,11 +7,9 @@ When you start the Pico, the first thing that you will see will be the "configur
 
 To have a more clear view, just hook up your serial console on the Pico, and you will see helpful messages with the id and the configuration/macro name. If you need to see the serial console in the terminal, follow this [AdaFruit guide for advanced serial console](https://learn.adafruit.com/welcome-to-circuitpython/advanced-serial-console-on-mac-and-linux).
 
-The code is organized in a way that permits the user to edit the macros without touching the core code that manages the keyboard.
-
 ## Prerequisites
 - CircuitPython loaded on the Pico -> [link to the source](https://learn.adafruit.com/getting-started-with-raspberry-pi-pico-circuitpython)
-- CircuitPython libraries loaded in the "lib" folder of the Pico:
+- [CircuitPython libraries](https://github.com/adafruit/Adafruit_CircuitPython_Bundle) loaded in the "lib" folder of the Pico:
     + adafruit_hid
     + adafruit_bus_device
     + adafruit_dotstar

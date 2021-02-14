@@ -23,8 +23,7 @@ pixels = adafruit_dotstar.DotStar(board.GP18, board.GP19, num_pixels, brightness
 i2c = busio.I2C(board.GP5, board.GP4)
 device = I2CDevice(i2c, 0x20)
 
-# Set up the keyboard
-
+# Define two modes for the keyboard
 class ButtonMode:
 	CONFIGURATION_CHOSER = 0
 	MACRO_CHOSER = 1
@@ -40,7 +39,6 @@ def colourwheel(pos):
         return (0, 255 - pos * 3, pos * 3)
     pos -= 170
     return (pos * 3, 0, 255 - pos * 3)
-
 
 # Read button states from the I2C IO expander on the keypad
 def read_button_states(x, y):
@@ -60,11 +58,12 @@ def read_button_states(x, y):
                 pressed[i] = 0
     return pressed
 
+# Define initial values for the global variables
 held = [0] * 16
 button_mode = ButtonMode.CONFIGURATION_CHOSER
 chosen_configuration = 0
 
-
+# Manage the colors of the buttons, depending on the mode and the available congigurations/macros
 def updateLeds():
 	global held
 	
@@ -85,7 +84,7 @@ def updateLeds():
 
 		pixels[15] = (255, 255, 255)
 		
-
+# Read button press
 def readButton(delay):
 	global button_mode
 	global chosen_configuration
@@ -107,7 +106,7 @@ def readButton(delay):
 					if chosen_configuration < len(configurations_map):
 						macros = configurations_map[chosen_configuration].getMacros()
 						if i < len(macros):
-							print("Selected macro: " + macros[i].getMacroName())
+							logMessage("Selected macro: " + macros[i].getMacroName())
 							macros[i].getMacro()
 						else:
 							configurations_map[chosen_configuration].nothing()
@@ -120,18 +119,24 @@ def readButton(delay):
 		else:
 			held[i] = 0
 
+# Build a message for the user with the available configurations
 def logConfigurations():
-	print("Available configurations:")
+	logMessage("Available configurations:")
 	for j in range(len(configurations_map)):
-		print(str(j) + ": " + configurations_map[j].getName())
+		logMessage(str(j) + ": " + configurations_map[j].getName())
 
+# Build a message for the user with the selected configuration and the available macros
 def logMacros():
 	if chosen_configuration < len(configurations_map):
-		print("Selected configuration: " + configurations_map[chosen_configuration].getName())
-		print("Available macros:")
+		logMessage("Selected configuration: " + configurations_map[chosen_configuration].getName())
+		logMessage("Available macros:")
 		macros = configurations_map[chosen_configuration].getMacros()
 		for j in range(len(macros)):
-			print( str(j) + ": " + macros[j].getMacroName())
+			logMessage( str(j) + ": " + macros[j].getMacroName())
+
+# Print the message to the serial console
+def logMessage(message):
+	print(message)
 
 
 logConfigurations()

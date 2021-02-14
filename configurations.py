@@ -9,6 +9,8 @@ from adafruit_hid.keycode import Keycode
 keyboard = Keyboard(usb_hid.devices)
 layout = KeyboardLayoutUS(keyboard)
 
+## CONFIGURATIONS ##
+
 class Terminal(AbstractConfiguration):
 	def getName():
 		return 'Terminal'
@@ -55,6 +57,19 @@ class Obsidian(AbstractConfiguration):
 		return [
 			AddNewLog
 		]
+
+class Git(AbstractConfiguration):
+	def getName():
+		return 'GIT'
+	def getColor():
+		return (247, 78, 39)
+	def getMacros():
+		return [
+			MergeDevelop,
+			MergeMaster
+		]
+
+## COMMANDS ##
 
 class Ls(AbstractMacro):
 	def getMacroName():
@@ -133,4 +148,25 @@ class AddNewLog(AbstractMacro):
 		time.sleep(0.1)
 		keyboard.send(Keycode.ENTER)
 
-configurations_map = [Terminal, GoogleMeet, OBS, Obsidian]	
+class MergeDevelop(AbstractMacro):
+	def getMacroName():
+		return "Merge develop into master"
+	def getMacro():
+		layout.write("git checkout master")
+		keyboard.send(Keycode.ENTER)
+		time.sleep(0.5)
+		layout.write("git merge develop")
+		keyboard.send(Keycode.ENTER)
+
+class MergeMaster(AbstractMacro):
+	def getMacroName():
+		return "Merge master into develop"
+	def getMacro():
+		layout.write("git checkout develop")
+		keyboard.send(Keycode.ENTER)
+		time.sleep(0.5)
+		layout.write("git merge master")
+		keyboard.send(Keycode.ENTER)
+
+# Map your configurations inside this array
+configurations_map = [Terminal, GoogleMeet, OBS, Obsidian, Git]	
