@@ -61,20 +61,24 @@ def read_button_states(x, y):
 # Define initial values for the global variables
 held = [0] * 16
 button_mode = ButtonMode.CONFIGURATION_CHOSER
+last_button_mode = ''
 chosen_configuration = 0
 
 # Manage the colors of the buttons, depending on the mode and the available congigurations/macros
 def updateLeds():
 	global held
+	global last_button_mode
 	
-	if button_mode == ButtonMode.CONFIGURATION_CHOSER and all(state == 0 for state in held):
+	if button_mode == ButtonMode.CONFIGURATION_CHOSER and last_button_mode != ButtonMode.CONFIGURATION_CHOSER:
+		last_button_mode = ButtonMode.CONFIGURATION_CHOSER
 		for i in range(16):
 			if i < len(configurations_map):
 				pixels[i] = configurations_map[i].getColor()
 			else:
 				pixels[i] = (0, 0, 0)
 		
-	elif button_mode == ButtonMode.MACRO_CHOSER:
+	elif button_mode == ButtonMode.MACRO_CHOSER and last_button_mode != ButtonMode.MACRO_CHOSER:
+		last_button_mode = ButtonMode.MACRO_CHOSER
 		for i in range(16):
 			if chosen_configuration < len(configurations_map):
 				if i < min(len(configurations_map[chosen_configuration].getMacros()), 15):
