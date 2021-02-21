@@ -1,5 +1,6 @@
 import usb_hid
 import time
+import random
 
 from abstract_classes import AbstractConfiguration, AbstractMacro
 from adafruit_hid.keyboard import Keyboard
@@ -66,10 +67,113 @@ class Git(AbstractConfiguration):
 	def getMacros():
 		return [
 			MergeDevelop,
-			MergeMaster
+			MergeMaster,
+			GitPush
+		]
+
+class RandomEstimation(AbstractConfiguration):
+	def getName():
+		return 'Random Esteem'
+	def getColor():
+		return (255, 0, 0)
+	def getMacros():
+		return [
+			OneWeekEsteem, 
+			OneMonthEsteem,
+			SixMonthsEsteem
+		]
+
+class PhpStorm(AbstractConfiguration):
+	def getName():
+		return 'PHPStorm'
+	def getColor():
+		return (232, 49, 123)
+	def getMacros():
+		return [
+			OpenInTerminal,
+			Rename,
+			ComposerAutoload,
+			ListenForDebug,
+			StepOver,
+			StepInto,
+			StepOut,
+			NextBreakpoint
 		]
 
 ## COMMANDS ##
+
+class OpenInTerminal(AbstractMacro):
+	def getMacroName():
+		return 'Open in terminal'
+	def getMacro():
+		keyboard.send(Keycode.ALT, Keycode.T)
+
+class Rename(AbstractMacro):
+	def getMacroName():
+		return 'Rename'
+	def getMacro():
+		keyboard.send(Keycode.SHIFT, Keycode.F6)
+
+class ListenForDebug(AbstractMacro):
+	def getMacroName():
+		return 'Listen for debug'
+	def getMacro():
+		keyboard.send(Keycode.ALT, Keycode.D)
+
+class StepOver(AbstractMacro):
+	def getMacroName():
+		return 'Step over'
+	def getMacro():
+		keyboard.send(Keycode.F8)
+
+class StepInto(AbstractMacro):
+	def getMacroName():
+		return 'Step into'
+	def getMacro():
+		keyboard.send(Keycode.F7)
+
+class StepOut(AbstractMacro):
+	def getMacroName():
+		return 'Step out'
+	def getMacro():
+		keyboard.send(Keycode.SHIFT, Keycode.F8)
+
+class NextBreakpoint(AbstractMacro):
+	def getMacroName():
+		return 'Next breakpoint'
+	def getMacro():
+		keyboard.send(Keycode.ALT, Keycode.COMMAND, Keycode.R)
+
+class ComposerAutoload(AbstractMacro):
+	def getMacroName():
+		return 'Composer autoload'
+	def getMacro():
+		layout.write('composer dump')
+		keyboard.send(Keycode.KEYPAD_MINUS)
+		layout.write('autoload')
+		keyboard.send(Keycode.ENTER)
+
+class OneWeekEsteem(AbstractMacro):
+	def getMacroName():
+		return '< 1 week'
+	def getMacro():
+		layout.write(str(random.randint(1, 5)))
+		keyboard.send(Keycode.ENTER)
+
+class OneMonthEsteem(AbstractMacro):
+	def getMacroName():
+		return '< 1 month'
+	def getMacro():
+		layout.write(str(random.randint(5, 20)))
+		keyboard.send(Keycode.ENTER)
+
+class SixMonthsEsteem(AbstractMacro):
+	def getMacroName():
+		return '< 6 months'
+	def getMacro():
+		layout.write(str(random.randint(20, 120)))
+		keyboard.send(Keycode.ENTER)
+		
 
 class Ls(AbstractMacro):
 	def getMacroName():
@@ -168,5 +272,13 @@ class MergeMaster(AbstractMacro):
 		layout.write("git merge master")
 		keyboard.send(Keycode.ENTER)
 
+class GitPush(AbstractMacro):
+	def getMacroName():
+		return "Push"
+	def getMacro():
+		layout.write("git push")
+		keyboard.send(Keycode.ENTER)
+		
+
 # Map your configurations inside this array
-configurations_map = [Terminal, GoogleMeet, OBS, Obsidian, Git]	
+configurations_map = [Terminal, GoogleMeet, Obsidian, RandomEstimation, PhpStorm, Git ]	
