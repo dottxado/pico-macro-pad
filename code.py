@@ -3,6 +3,7 @@ import board
 import busio
 
 from configurations import configurations_map
+from empty_classes import EmptyConfiguration, EmptyMacro
 
 from adafruit_bus_device.i2c_device import I2CDevice
 import adafruit_dotstar
@@ -81,7 +82,7 @@ def updateLeds():
 		last_button_mode = ButtonMode.MACRO_CHOSER
 		for i in range(16):
 			if chosen_configuration < len(configurations_map):
-				if i < min(len(configurations_map[chosen_configuration].getMacros()), 15):
+				if i < min(len(configurations_map[chosen_configuration].getMacros()), 15) and not issubclass(configurations_map[chosen_configuration].getMacros()[i], EmptyMacro):
 					pixels[i] = configurations_map[chosen_configuration].getColor()
 				else: 
 					pixels[i] = (0, 0, 0)
@@ -99,7 +100,7 @@ def readButton(delay):
 		if pressed[i]:
 
 			if button_mode == ButtonMode.CONFIGURATION_CHOSER:
-				if i < len(configurations_map):
+				if i < len(configurations_map) and not issubclass(configurations_map[i], EmptyConfiguration):
 					chosen_configuration = i
 					button_mode = ButtonMode.MACRO_CHOSER
 					logMacros()
@@ -109,7 +110,7 @@ def readButton(delay):
 					held[i] = 1
 					if chosen_configuration < len(configurations_map):
 						macros = configurations_map[chosen_configuration].getMacros()
-						if i < len(macros):
+						if i < len(macros) and not issubclass(macros[i], EmptyMacro):
 							logMessage("Selected macro: " + macros[i].getMacroName())
 							macros[i].getMacro()
 						else:
