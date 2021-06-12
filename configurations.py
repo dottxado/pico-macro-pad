@@ -1,8 +1,10 @@
+## Example configurations for Linux Ubuntu ##
 import usb_hid
 import time
 import random
 
 from abstract_classes import AbstractConfiguration, AbstractMacro
+from empty_classes import EmptyConfiguration, EmptyMacro
 from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
 from adafruit_hid.keycode import Keycode
@@ -24,31 +26,6 @@ class Terminal(AbstractConfiguration):
 			Home
 		]
 
-class GoogleMeet(AbstractConfiguration):
-	def getName():
-		return 'Google Meet'
-	def getColor():
-		return (255, 128, 0)
-	def getMacros():
-		return [
-			ToggleMicrophone, 
-			ToggleWebcam
-		]
-
-class OBS(AbstractConfiguration):
-	def getName():
-		return 'OBS'
-	def getColor():
-		return (0, 0, 255)
-	def getMacros():
-		return [
-			SelectScene1, 
-			SelectScene2,
-			SelectScene3,
-			MuteOn,
-			MuteOff
-		]
-
 class Obsidian(AbstractConfiguration):
 	def getName():
 		return 'Obsidian'
@@ -56,32 +33,11 @@ class Obsidian(AbstractConfiguration):
 		return (51, 51, 255)
 	def getMacros():
 		return [
-			AddNewLog
+			AddNewLog,
+			AddNewDailyPlan,
+			AddQuestionsDailyPlan
 		]
 
-class Git(AbstractConfiguration):
-	def getName():
-		return 'GIT'
-	def getColor():
-		return (247, 78, 39)
-	def getMacros():
-		return [
-			MergeDevelop,
-			MergeMaster,
-			GitPush
-		]
-
-class RandomEstimation(AbstractConfiguration):
-	def getName():
-		return 'Random Esteem'
-	def getColor():
-		return (255, 0, 0)
-	def getMacros():
-		return [
-			OneWeekEsteem, 
-			OneMonthEsteem,
-			SixMonthsEsteem
-		]
 
 class PhpStorm(AbstractConfiguration):
 	def getName():
@@ -92,12 +48,55 @@ class PhpStorm(AbstractConfiguration):
 		return [
 			OpenInTerminal,
 			Rename,
-			ComposerAutoload,
+			SelectOpenedFile,
+			EmptyMacro,
+			EmptyMacro,
+			EmptyMacro,
+			EmptyMacro,
 			ListenForDebug,
 			StepOver,
 			StepInto,
 			StepOut,
 			NextBreakpoint
+		]
+
+
+class Zoom(AbstractConfiguration):
+	def getName():
+		return 'Zoom'
+	def getColor():
+		return (80, 140, 246)
+	def getMacros():
+		return [
+			ToggleMicrophoneZoom,
+			EmptyMacro,
+			ToggleVideoZoom,
+			EmptyMacro,
+			ToggleScreenShareZoom,
+			EmptyMacro,
+			EmptyMacro,
+			EmptyMacro,
+			LeaveMeetingZoom
+		]
+
+
+class NumPad(AbstractConfiguration):
+	def getName():
+		return 'Numeric pad'
+	def getColor():
+		return (205, 255, 0)
+	def getMacros():
+		return [
+			Num0,
+			Num1,
+			Num2,
+			Num3,
+			Num4,
+			Num5,
+			Num6,
+			Num7,
+			Num8,
+			Num9
 		]
 
 ## COMMANDS ##
@@ -142,46 +141,19 @@ class NextBreakpoint(AbstractMacro):
 	def getMacroName():
 		return 'Next breakpoint'
 	def getMacro():
-		keyboard.send(Keycode.ALT, Keycode.COMMAND, Keycode.R)
+		keyboard.send(Keycode.F9)
 
-class ComposerAutoload(AbstractMacro):
+class SelectOpenedFile(AbstractMacro):
 	def getMacroName():
-		return 'Composer autoload'
+		return 'Select Opened File'
 	def getMacro():
-		layout.write('composer dump')
-		keyboard.send(Keycode.KEYPAD_MINUS)
-		layout.write('autoload')
-		keyboard.send(Keycode.ENTER)
-
-class OneWeekEsteem(AbstractMacro):
-	def getMacroName():
-		return '< 1 week'
-	def getMacro():
-		layout.write(str(random.randint(1, 5)))
-		keyboard.send(Keycode.ENTER)
-
-class OneMonthEsteem(AbstractMacro):
-	def getMacroName():
-		return '< 1 month'
-	def getMacro():
-		layout.write(str(random.randint(5, 20)))
-		keyboard.send(Keycode.ENTER)
-
-class SixMonthsEsteem(AbstractMacro):
-	def getMacroName():
-		return '< 6 months'
-	def getMacro():
-		layout.write(str(random.randint(20, 120)))
-		keyboard.send(Keycode.ENTER)
-		
+		keyboard.send(Keycode.SHIFT, Keycode.F1)
 
 class Ls(AbstractMacro):
 	def getMacroName():
-		return 'ls -al'
+		return 'll'
 	def getMacro():
-		layout.write("ls ")
-		keyboard.send(Keycode.KEYPAD_MINUS)
-		layout.write("al")
+		layout.write("ll")
 		keyboard.send(Keycode.ENTER)
 
 class Pwd(AbstractMacro):
@@ -198,53 +170,11 @@ class Home(AbstractMacro):
 		layout.write("cd ")
 		keyboard.send(Keycode.ENTER)
 
-class ToggleMicrophone(AbstractMacro):
-	def getMacroName():
-		return 'Toggle Microphone'
-	def getMacro():
-		keyboard.send(Keycode.COMMAND, Keycode.D)
-
-class ToggleWebcam(AbstractMacro):
-	def getMacroName():
-		return 'Toggle Webcam'
-	def getMacro():
-		keyboard.send(Keycode.COMMAND, Keycode.E)
-
-class SelectScene1(AbstractMacro):
-	def getMacroName():
-		return 'Scene 1'
-	def getMacro():
-		keyboard.send(Keycode.LEFT_ALT, Keycode.ONE)
-
-class SelectScene2(AbstractMacro):
-	def getMacroName():
-		return 'Scene 2'
-	def getMacro():
-		keyboard.send(Keycode.LEFT_ALT, Keycode.TWO)
-
-class SelectScene3(AbstractMacro):
-	def getMacroName():
-		return 'Scene 3'
-	def getMacro():
-		keyboard.send(Keycode.LEFT_ALT, Keycode.THREE)
-
-class MuteOn(AbstractMacro):
-	def getMacroName():
-		return 'Mute'
-	def getMacro():
-		keyboard.send(Keycode.LEFT_ALT, Keycode.FOUR)
-
-class MuteOff(AbstractMacro):
-	def getMacroName():
-		return 'Unmute'
-	def getMacro():
-		keyboard.send(Keycode.LEFT_ALT, Keycode.FIVE)
-
 class AddNewLog(AbstractMacro):
 	def getMacroName():
 		return 'New Log'
 	def getMacro():
-		keyboard.send(Keycode.COMMAND, Keycode.P)
+		keyboard.send(Keycode.CONTROL, Keycode.P)
 		layout.write("Insert template")
 		time.sleep(0.1)
 		keyboard.send(Keycode.ENTER)
@@ -252,33 +182,115 @@ class AddNewLog(AbstractMacro):
 		time.sleep(0.1)
 		keyboard.send(Keycode.ENTER)
 
-class MergeDevelop(AbstractMacro):
+class AddNewDailyPlan(AbstractMacro):
 	def getMacroName():
-		return "Merge develop into master"
+		return 'New daily plan'
 	def getMacro():
-		layout.write("git checkout master")
+		keyboard.send(Keycode.CONTROL, Keycode.P)
+		layout.write("Insert template")
+		time.sleep(0.1)
 		keyboard.send(Keycode.ENTER)
-		time.sleep(0.5)
-		layout.write("git merge develop")
+		layout.write("New daily plan")
+		time.sleep(0.1)
 		keyboard.send(Keycode.ENTER)
 
-class MergeMaster(AbstractMacro):
+class AddQuestionsDailyPlan(AbstractMacro):
 	def getMacroName():
-		return "Merge master into develop"
+		return 'Add questions for next daily'
 	def getMacro():
-		layout.write("git checkout develop")
+		keyboard.send(Keycode.CONTROL, Keycode.P)
+		layout.write("Insert template")
+		time.sleep(0.1)
 		keyboard.send(Keycode.ENTER)
-		time.sleep(0.5)
-		layout.write("git merge master")
+		layout.write("Questions for next daily")
+		time.sleep(0.1)
 		keyboard.send(Keycode.ENTER)
 
-class GitPush(AbstractMacro):
+
+class ToggleMicrophoneZoom(AbstractMacro):
 	def getMacroName():
-		return "Push"
+		return "Toggle microphone"
 	def getMacro():
-		layout.write("git push")
-		keyboard.send(Keycode.ENTER)
+		keyboard.send(Keycode.ALT, Keycode.A)
+
+class ToggleVideoZoom(AbstractMacro):
+	def getMacroName():
+		return "Toggle video"
+	def getMacro():
+		keyboard.send(Keycode.ALT, Keycode.V)
+
+class ToggleScreenShareZoom(AbstractMacro):
+	def getMacroName():
+		return "Toggle screen share"
+	def getMacro():
+		keyboard.send(Keycode.ALT, Keycode.S)
+
+class LeaveMeetingZoom(AbstractMacro):
+	def getMacroName():
+		return "Close call"
+	def getMacro():
+		keyboard.send(Keycode.CONTROL, Keycode.SHIFT, Keycode.E)
+
+class Num0(AbstractMacro):
+	def getMacroName():
+		return "Number 0"
+	def getMacro():
+		layout.write("0")
+
+class Num1(AbstractMacro):
+	def getMacroName():
+		return "Number 1"
+	def getMacro():
+		layout.write("1")
+
+class Num2(AbstractMacro):
+	def getMacroName():
+		return "Number 2"
+	def getMacro():
+		layout.write("2")
+
+class Num3(AbstractMacro):
+	def getMacroName():
+		return "Number 3"
+	def getMacro():
+		layout.write("3")
 		
+class Num4(AbstractMacro):
+	def getMacroName():
+		return "Number 4"
+	def getMacro():
+		layout.write("4")
+
+class Num5(AbstractMacro):
+	def getMacroName():
+		return "Number 5"
+	def getMacro():
+		layout.write("5")
+
+class Num6(AbstractMacro):
+	def getMacroName():
+		return "Number 6"
+	def getMacro():
+		layout.write("6")
+
+class Num7(AbstractMacro):
+	def getMacroName():
+		return "Number 7"
+	def getMacro():
+		layout.write("7")
+
+class Num8(AbstractMacro):
+	def getMacroName():
+		return "Number 8"
+	def getMacro():
+		layout.write("8")
+
+class Num9(AbstractMacro):
+	def getMacroName():
+		return "Number 9"
+	def getMacro():
+		layout.write("9")
+
 
 # Map your configurations inside this array
-configurations_map = [Terminal, GoogleMeet, Obsidian, RandomEstimation, PhpStorm, Git ]	
+configurations_map = [ NumPad, Zoom, Obsidian, EmptyConfiguration, Terminal, PhpStorm ]	

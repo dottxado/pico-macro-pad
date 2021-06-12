@@ -18,6 +18,7 @@ To have a more clear view, just hook up your serial console on the Pico, and you
 ## How to modify the configurations and the macros
 The code is organized in a way that permits the user to edit the macros without touching the core code that manages the keyboard.
 You need to know that you must follow the abstract classes defined in the file abstract_classes.py to define your configurations and your macro, then you can check my examples into configurations.py. Create your classes and remember to add the configuration classes in the array at the end of the configurations.py file.
+You can also use the predefined **EmptyConfiguration** and **EmptyMacro** classes as spacers: these will generate turned off buttons that will do nothing.
 
 ## Credits
 I'm not a python developer, on the microcontrollers I only love to mess a little with C++ on Arduino, so this project gave me a way to finally approach some python with a goal in mind. Thanks to [sandyjmacdonald](https://gist.github.com/sandyjmacdonald) and [pixlwave](https://github.com/pixlwave), I've taken some pieces of their code and various inspiration.
