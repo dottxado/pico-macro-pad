@@ -167,7 +167,7 @@ class Home(AbstractMacro):
 	def getMacroName():
 		return 'Home'
 	def getMacro():
-		layout.write("cd ")
+		layout.write("cd $HOME")
 		keyboard.send(Keycode.ENTER)
 
 class AddNewLog(AbstractMacro):
