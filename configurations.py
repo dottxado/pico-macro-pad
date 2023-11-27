@@ -77,7 +77,7 @@ class Git(AbstractConfiguration):
 			Add,
 			Commit,
 			Push,
-			PushUpstream,
+			EmptyMacro,
 			EmptyMacro,
 			EmptyMacro,
 			EmptyMacro,
@@ -194,12 +194,6 @@ class CheckoutOldBranch(AbstractMacro):
 		keyboard.send(Keycode.LEFT_ARROW)
 		time.sleep(0.1)
 		keyboard.send(Keycode.LEFT_ARROW)
-		
-class PushUpstream(AbstractMacro):
-	def getMacroName():
-		return 'Push upstream'
-	def getMacro():
-		layout.write("git push --set-upstream origin ")
 
 class Push(AbstractMacro):
 	def getMacroName():
